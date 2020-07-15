@@ -17,7 +17,7 @@ public class CompraService {
 
         //Chamada síncrona
         ResponseEntity<InfoFornecedorDTO> exchange =
-                client.exchange("http://localhost:8081/info/" + compraDTO.getEndereco().getEstado(),
+                client.exchange("http://fornecedor/info/" + compraDTO.getEndereco().getEstado(),
                 HttpMethod.GET,null, InfoFornecedorDTO.class);
 
         log.info(exchange.getBody().getEndereco());
