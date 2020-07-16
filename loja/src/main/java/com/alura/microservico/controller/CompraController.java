@@ -1,6 +1,7 @@
 package com.alura.microservico.controller;
 
 import com.alura.microservico.dto.CompraDTO;
+import com.alura.microservico.model.Compra;
 import com.alura.microservico.service.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class CompraController {
     private CompraService compraService;
 
     @PostMapping
-    public void realizaCompra(@RequestBody CompraDTO compraDTO){
-        compraService.realizaCompra(compraDTO);
+    public Compra realizaCompra(@RequestBody CompraDTO compraDTO){
+        return compraService.realizaCompra(compraDTO);
     }
 }

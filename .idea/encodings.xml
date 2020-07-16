@@ -4,7 +4,6 @@
     <file url="file://$PROJECT_DIR$/config-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fornecedor/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/fornecedor/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/loja/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/loja/src/main/resources" charset="UTF-8" />
   </component>
