@@ -5,6 +5,7 @@ import com.alura.microservico.dto.CompraDTO;
 import com.alura.microservico.dto.InfoFornecedorDTO;
 import com.alura.microservico.dto.InfoPedidoDTO;
 import com.alura.microservico.model.Compra;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,7 @@ public class CompraService {
     @Autowired
     private FornecedorClient fornecedorClient;
 
+    @HystrixCommand(fallbackMethod = "realizaCompraFallback")
     public Compra realizaCompra(CompraDTO compraDTO){
 
         log.info("Buscando informações do fornecedor de {}", compraDTO.getEndereco().getEstado());
@@ -47,5 +49,12 @@ public class CompraService {
 
         log.info(exchange.getBody().getEndereco());
          */
+    }
+
+    private Compra realizaCompraFallback(CompraDTO compraDTO){
+        return Compra
+                    .builder()
+                    .enderecoDestino(compraDTO.getEndereco().toString())
+                    .build();
     }
 }
