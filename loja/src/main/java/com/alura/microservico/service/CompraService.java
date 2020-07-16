@@ -24,7 +24,10 @@ public class CompraService {
 
     public Compra realizaCompra(CompraDTO compraDTO){
 
+        log.info("Buscando informações do fornecedor de {}", compraDTO.getEndereco().getEstado());
         InfoFornecedorDTO fornecedorDTO = fornecedorClient.getInfoPorEstado(compraDTO.getEndereco().getEstado());
+
+        log.info("Realizando pedido");
         InfoPedidoDTO pedidoDTO = fornecedorClient.realizaPedido(compraDTO.getItens());
 
         log.info(fornecedorDTO.getEndereco());
