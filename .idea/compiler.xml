@@ -7,11 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="transportador" />
-        <module name="config-server" />
-        <module name="loja" />
+        <module name="zuul" />
         <module name="fornecedor" />
+        <module name="config-server" />
         <module name="eureka" />
+        <module name="loja" />
+        <module name="transportador" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +21,7 @@
       <module name="fornecedor" target="1.8" />
       <module name="loja" target="1.8" />
       <module name="transportador" target="1.8" />
+      <module name="zuul" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -29,6 +31,7 @@
       <module name="fornecedor" options="-parameters" />
       <module name="loja" options="-parameters" />
       <module name="transportador" options="-parameters" />
+      <module name="zuul" options="-parameters" />
     </option>
   </component>
 </project>
