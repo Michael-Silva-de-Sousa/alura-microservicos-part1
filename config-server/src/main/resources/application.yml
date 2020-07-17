@@ -8,5 +8,5 @@ spring:
       server:
         git:
           uri: https://github.com/Michael-Silva-de-Sousa/microservico-repo
-          search-paths: fornecedor
+          search-paths: fornecedor, loja, transportador
 

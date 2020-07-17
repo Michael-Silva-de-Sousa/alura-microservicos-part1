@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/eureka/eureka.iml" filepath="$PROJECT_DIR$/eureka/eureka.iml" />
       <module fileurl="file://$PROJECT_DIR$/fornecedor/fornecedor.iml" filepath="$PROJECT_DIR$/fornecedor/fornecedor.iml" />
       <module fileurl="file://$PROJECT_DIR$/loja/loja.iml" filepath="$PROJECT_DIR$/loja/loja.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transportador/transportador.iml" filepath="$PROJECT_DIR$/transportador/transportador.iml" />
     </modules>
   </component>
 </project>

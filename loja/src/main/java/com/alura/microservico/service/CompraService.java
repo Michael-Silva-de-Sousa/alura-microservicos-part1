@@ -5,6 +5,7 @@ import com.alura.microservico.dto.CompraDTO;
 import com.alura.microservico.dto.InfoFornecedorDTO;
 import com.alura.microservico.dto.InfoPedidoDTO;
 import com.alura.microservico.model.Compra;
+import com.alura.microservico.repository.CompraRepository;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,16 @@ public class CompraService {
 
     @Autowired
     private FornecedorClient fornecedorClient;
+    @Autowired
+    private CompraRepository compraRepository;
 
-    @HystrixCommand(fallbackMethod = "realizaCompraFallback")
+    //@HystrixCommand(threadPoolKey = "getByIdThreadPool")
+    public Compra getById(Long id) {
+        return compraRepository.findById(id).orElse(Compra.builder().build());
+    }
+
+    //@HystrixCommand(fallbackMethod = "realizaCompraFallback",
+    //threadPoolKey = "realizaCompraThreadPool")
     public Compra realizaCompra(CompraDTO compraDTO){
 
         log.info("Buscando informações do fornecedor de {}", compraDTO.getEndereco().getEstado());
@@ -34,13 +43,15 @@ public class CompraService {
 
         log.info(fornecedorDTO.getEndereco());
 
-        return Compra
-                .builder()
-                .pedidoId(pedidoDTO.getId())
-                .tempoDePedido(pedidoDTO.getTempoDePreparo())
-                .enderecoDestino(compraDTO.getEndereco().toString())
-                .build();
+        Compra compra = Compra
+                            .builder()
+                            .pedidoId(pedidoDTO.getId())
+                            .tempoDePedido(pedidoDTO.getTempoDePreparo())
+                            .enderecoDestino(compraDTO.getEndereco().toString())
+                            .build();
+        compraRepository.save(compra);
 
+        return compra;
         /**
         //Chamada síncrona
         ResponseEntity<InfoFornecedorDTO> exchange =
