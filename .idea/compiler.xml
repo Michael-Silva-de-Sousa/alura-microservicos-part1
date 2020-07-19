@@ -10,12 +10,14 @@
         <module name="zuul" />
         <module name="fornecedor" />
         <module name="config-server" />
+        <module name="auth" />
         <module name="eureka" />
         <module name="loja" />
         <module name="transportador" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="auth" target="1.8" />
       <module name="config-server" target="1.8" />
       <module name="eureka" target="1.8" />
       <module name="fornecedor" target="1.8" />
@@ -26,6 +28,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="auth" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="fornecedor" options="-parameters" />
