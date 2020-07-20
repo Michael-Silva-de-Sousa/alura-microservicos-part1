@@ -40,19 +40,18 @@ public class CompraService {
     //threadPoolKey = "realizaCompraThreadPool")
     public Compra realizaCompra(CompraDTO compraDTO){
 
-        Compra compra = Compra
-                            .builder()
-                            .status(CompraStatus.RECEBIDO)
-                            .build();
-        compraRepository.save(compra);
+        Compra compraSalva = new Compra();
+        compraSalva.setStatus(CompraStatus.RECEBIDO);
+        compraSalva.setEnderecoDestino(compraDTO.getEndereco().toString());
+        compraRepository.save(compraSalva);
 
-        log.info("Buscando informações do fornecedor de {}", compraDTO.getEndereco().getEstado());
         InfoFornecedorDTO fornecedorDTO = fornecedorClient.getInfoPorEstado(compraDTO.getEndereco().getEstado());
-
         log.info("Realizando pedido");
         InfoPedidoDTO pedidoDTO = fornecedorClient.realizaPedido(compraDTO.getItens());
-        compra.builder().status(CompraStatus.REALIZADO);
-        compraRepository.save(compra);
+        compraSalva.setStatus(CompraStatus.REALIZADO);
+        compraSalva.setPedidoId(pedidoDTO.getId());
+        compraSalva.setTempoDePedido(pedidoDTO.getTempoDePreparo());
+        compraRepository.save(compraSalva);
 
         InfoEtregaDTO infoEtregaDTO = InfoEtregaDTO
                 .builder()
@@ -63,28 +62,12 @@ public class CompraService {
                 .build();
 
         VoucherDTO voucherDTO = transportadorClient.reservaEntrega(infoEtregaDTO);
-        compra.builder().status(CompraStatus.RESERVA_ENTREGA_REALIZADA);
-        compraRepository.save(compra);
+        compraSalva.setStatus(CompraStatus.RESERVA_ENTREGA_REALIZADA);
+        compraSalva.setDataParaEntrega(voucherDTO.getPrevisaoParaEntrega());
+        compraSalva.setVoucher(voucherDTO.getNumero());
+        compraRepository.save(compraSalva);
 
-        Compra
-            .builder()
-            .pedidoId(pedidoDTO.getId())
-            .tempoDePedido(pedidoDTO.getTempoDePreparo())
-            .enderecoDestino(compraDTO.getEndereco().toString())
-            .dataParaEntrega(voucherDTO.getPrevisaoParaEntrega())
-            .voucher(voucherDTO.getNumero())
-            .build();
-        compraRepository.save(compra);
-
-        return compra;
-        /**
-        //Chamada síncrona
-        ResponseEntity<InfoFornecedorDTO> exchange =
-                client.exchange("http://fornecedor/info/" + compraDTO.getEndereco().getEstado(),
-                HttpMethod.GET,null, InfoFornecedorDTO.class);
-
-        log.info(exchange.getBody().getEndereco());
-         */
+        return compraSalva;
     }
 
     private Compra realizaCompraFallback(CompraDTO compraDTO){
